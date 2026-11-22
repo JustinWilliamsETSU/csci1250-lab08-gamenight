@@ -31,6 +31,36 @@ for (int i = 0; i < players.Length; i++)
 System.Console.WriteLine("Leader: " + players[leader] + " with " + points[leader]);
 System.Console.WriteLine("Season total: " + total);
 
+// Part 2: Game Night
+int bestTonight = -1;
+int bestPlayer = 0;
+
+for (int i = 0; i < players.Length; i++)
+{
+    System.Console.Write("Points tonight for " + players[i] + ": ");
+    int tonight = Convert.ToInt32(Console.ReadLine());
+
+    while (tonight < 0 || tonight > MAX_POINTS)
+    {
+        System.Console.WriteLine("Points must be from 0 to " + MAX_POINTS + ".");
+        System.Console.Write("Points tonight for " + players[i] + ": ");
+        tonight = Convert.ToInt32(Console.ReadLine());
+    }
+
+    int season = Convert.ToInt32(points[i]) + tonight;
+    points[i] = season.ToString();
+
+    if (tonight > bestTonight)
+    {
+        bestTonight = tonight;
+        bestPlayer = i;
+    }
+}
+
+System.Console.WriteLine("Tonight's winner: " + players[bestPlayer] + " with " + bestTonight);
+File.WriteAllLines(POINTS_FILE, points);
+System.Console.WriteLine("Saved points.txt.");
+
 // Methods
 static int LeaderIndex(string[] points)
 {
